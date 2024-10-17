@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
     <title>Rapid Check</title>
     <style>
         body {
@@ -91,9 +92,9 @@
         let socket;
 
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('siteCodeInput').focus();
             screen.orientation.lock();
             screen.lockOrientation("portrait-primary");
+            document.getElementById('siteCodeInput').focus();
         });
 
         document.getElementById('nameInput').addEventListener('keypress', function(event) {
@@ -129,7 +130,7 @@
                         const name = nameInput.value.trim();
                         const parts = event.data.split(':');
                         const table = document.getElementById('nameTable');
-                        const newRow = table.insertRow(0);
+                        const newRow = table.insertRow(1);
                         const cell = newRow.insertCell(0);
                         cell.textContent = name + ' (' + parts[1].trim() + ')';
                         nameInput.value = '';
