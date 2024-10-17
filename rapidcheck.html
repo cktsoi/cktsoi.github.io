@@ -31,7 +31,7 @@
         }
 
         input[type="text"] {
-            width: calc(100% - 60px);
+            width: 100%;
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
@@ -79,7 +79,7 @@
         <table id="nameTable">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Last Scanned Records</th>
                 </tr>
             </thead>
             <tbody>
@@ -90,10 +90,12 @@
     <script type="text/javascript">
         let siteCode = '';
         let socket;
+        let confirmSound = new Audio('https://cktsoi.com/confirmation.mp3');
 
         document.addEventListener('DOMContentLoaded', function() {
-            screen.orientation.lock();
-            screen.lockOrientation("portrait-primary");
+            document.documentElement.requestFullScreen();
+            screen.orientation.lock("portrait-primary");
+
             document.getElementById('siteCodeInput').focus();
         });
 
@@ -127,6 +129,8 @@
                     console.log('Message from server:', event.data);
 
                     if (event.data.startsWith('OK')) {
+                        confirmSound.play();
+
                         const name = nameInput.value.trim();
                         const parts = event.data.split(':');
                         const table = document.getElementById('nameTable');
@@ -134,7 +138,7 @@
                         const cell = newRow.insertCell(0);
                         cell.textContent = name + ' (' + parts[1].trim() + ')';
                         nameInput.value = '';
-                        nameInput.focus(); // Set focus back to the input field
+                        nameInput.focus();
 
                         // Limit the table to the last 10 rows
                         while (table.rows.length > 10) {
